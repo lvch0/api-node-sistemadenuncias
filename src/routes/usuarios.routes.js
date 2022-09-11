@@ -1,15 +1,16 @@
 const express = require("express")
 const router = express.Router()
+const checkOrigin = require("../middleware/origins")
 const { getItem, getItems, createItem, updateItem, deleteItem } = require("../controllers/usuarios.controller")
 
-router.get("/", getItems)
+router.get("/", checkOrigin, getItems)
 
-router.get("/:id", getItem)
+router.get("/:id", checkOrigin, getItem)
 
-router.post("/", createItem)
+router.post("/", checkOrigin, createItem)
 
-router.patch("/:id", updateItem)
+router.patch("/:id", checkOrigin, updateItem)
 
-router.delete("/:id", deleteItem)
+router.delete("/:id", checkOrigin, deleteItem)
 
 module.exports = router
