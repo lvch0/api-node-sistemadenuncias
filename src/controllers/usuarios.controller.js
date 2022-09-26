@@ -1,17 +1,23 @@
 const { httpError } = require("../helpers/handleError")
-const usuarioModel = require("../models/users.model")
+const usuarioModel = require("../models/Usuario.model")
 
 const getItems = async (req, res) => {
     try {
-        const listAll = await usuarioModel.findAll({})
+        const listAll = await usuarioModel.Usuario.findAll({})
         res.send({data: listAll})
     } catch (e) {
         httpError(res, e)
     }
 }
-req, res
-const getItem = (req, res) => {
-
+// req, res
+const getItem = async (req, res) => {
+    try {
+        const user = await usuarioModel.Usuario.f
+        // const user = 'SELECT * FROM usuario WHERE idUsuario = ?'
+        res.send({data: user})
+    } catch (e) {
+        httpError(res, e)
+    }
 }
 
 const createItem = async (req, res) => {

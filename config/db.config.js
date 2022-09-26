@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize")
-const mysql = required("mysql")
+const mysql = require("mysql")
+const util = require("util")
 
 const database = process.env.DB_DATABASE;
 const username = process.env.DB_USER;
@@ -25,4 +26,6 @@ const dbConnect = async () => {
     }
 }
 
-module.exports = { sequelize, dbConnect }
+const utilQuery = util.promisify(dbConnect.query)
+
+module.exports = { sequelize, dbConnect, utilQuery }.bind(dbConnect)

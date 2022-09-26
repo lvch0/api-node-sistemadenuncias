@@ -1,4 +1,4 @@
-const mysql = require("mysql")
+// const mysql = require("mysql")
 const util = require("util")
 
 const addUser = 
@@ -42,6 +42,4 @@ const addUser =
         
     }
 
-    const getUser = 
-        asyn
 

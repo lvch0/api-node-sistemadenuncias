@@ -1,8 +1,8 @@
 const { sequelize } = require("../../config/db.config")
 const { Datatypes, DataTypes } = require("sequelize")
 
-const Usuario = sequelize.define(
-    "usuarios",
+export const Usuario = sequelize.define(
+    "usuario",
     {
         nombreUsuario: {
             type: Datatypes.VARCHAR,
@@ -19,6 +19,3 @@ const Usuario = sequelize.define(
         timestamps: true
     }
 )
-
-
-module.exports = Usuario
