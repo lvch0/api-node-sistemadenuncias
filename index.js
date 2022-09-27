@@ -45,6 +45,17 @@ app.post("/usuario", async (req, res) => {
     res.json(result)
 })
 
+app.get("/usuario", async (req, res) => {
+    const result = await prisma.usuario.findMany()
+    res.json(result)
+})
+
+//Actualizar
+app.put("/usuario/:id", (req, res) => {
+    const {id} = req.params
+    
+})
+
 app.listen(3000, () => {
     console.log("Escuchando en el puerto")
 })
