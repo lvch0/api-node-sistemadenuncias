@@ -1,0 +1,12 @@
+### Creación de usuario
+POST http://localhost:3000/usuario
+Content-Type: application/json
+
+{
+    "nombreUsuario": "Lucho",
+    "contrasenia": "12345",
+    "rol": "Gestor"
+}
+
+### Petición GET de prueba
+GET http://localhost:3000
