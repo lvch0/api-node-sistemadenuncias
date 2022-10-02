@@ -21,8 +21,9 @@
 //     console.log("Escuchando en puerto", PORT)
 // })
 
-const express = require("express");
+const express = require("express")
 const { PrismaClient } = require("@prisma/client")
+const usersCtrl = require("./src/controllers/usuarios.controller")
 
 const prisma = new PrismaClient()
 const app = express()
@@ -33,28 +34,7 @@ app.get("/", (req, res) => {
     res.send("Hola mundo")
 })
 
-app.post("/usuario", async (req, res) => {
-    const { nombreUsuario, contrasenia, rol } = req.body
-    const result = await prisma.usuario.create({
-        data: {
-            nombreUsuario,
-            contrasenia,
-            rol
-        }
-    })
-    res.json(result)
-})
-
-app.get("/usuario", async (req, res) => {
-    const result = await prisma.usuario.findMany()
-    res.json(result)
-})
-
-//Actualizar
-app.put("/usuario/:id", (req, res) => {
-    const {id} = req.params
-    
-})
+app.use("/api/users", require("./src/routes/usuarios.routes"))
 
 app.listen(3000, () => {
     console.log("Escuchando en el puerto")

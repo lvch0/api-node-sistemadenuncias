@@ -12,4 +12,4 @@ Content-Type: application/json
 GET http://localhost:3000
 
 ### Petición todos los usuarios
-GET http://localhost:3000/usuario
+GET http://localhost:3000/api/users

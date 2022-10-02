@@ -1,16 +1,16 @@
-// const express = require("express")
-// const router = express.Router()
-// const checkOrigin = require("../middleware/origins")
-// const { getItem, getItems, createItem, updateItem, deleteItem } = require("../controllers/usuarios.controller")
+const { Router } = require("express")
 
-// router.get("/", checkOrigin, getItems)
+const router = Router()
+const usersCtrl = require("../controllers/usuarios.controller")
 
-// router.get("/:id", checkOrigin, getItem)
+router.get("/", usersCtrl.getUsers)
 
-// router.post("/", checkOrigin, createItem)
+router.get("/:id", usersCtrl.getUser)
 
-// router.patch("/:id", checkOrigin, updateItem)
+router.post("/", usersCtrl.createUser)
 
-// router.delete("/:id", checkOrigin, deleteItem)
+router.put("/:id", usersCtrl.updateUser)
 
-// module.exports = router
+router.delete("/:id", usersCtrl.deleteUser)
+
+module.exports = router

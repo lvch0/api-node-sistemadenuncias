@@ -51,3 +51,40 @@
 //     updateItem,
 //     deleteItem
 // }
+
+const { PrismaClient } = require("@prisma/client")
+
+const prisma = new PrismaClient()
+const usersCtrl = {}
+
+usersCtrl.getUsers = async (req, res) => {
+    const result = await prisma.usuario.findMany()
+    res.json(result)
+}
+
+usersCtrl.getUser = (req, res) => {
+    const { id } = req.params
+
+}
+
+usersCtrl.createUser = async (req, res) => {
+    const { nombreUsuario, contrasenia, rol } = req.body
+    const result = await prisma.usuario.create({
+        data: {
+            nombreUsuario,
+            contrasenia,
+            rol
+        }
+    })
+    res.json(result)
+}
+
+usersCtrl.updateUser = (req, res) => {
+
+}
+
+usersCtrl.deleteUser = (req, res) => {
+
+}
+
+module.exports = usersCtrl
