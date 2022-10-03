@@ -100,7 +100,7 @@ usersCtrl.updateUser = async (req, res) => {
     try {
         const { id } = req.params
         const result = await prisma.usuario.update({
-            where: { 
+            where: {
                 IdUsuario: Number(id)
             },
             data: req.body

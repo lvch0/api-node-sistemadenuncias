@@ -22,10 +22,7 @@
 // })
 
 const express = require("express")
-const { PrismaClient } = require("@prisma/client")
-const usersCtrl = require("./src/controllers/usuarios.controller")
 
-const prisma = new PrismaClient()
 const app = express()
 
 app.use(express.json())

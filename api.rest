@@ -15,12 +15,12 @@ GET http://localhost:3000
 GET http://localhost:3000/api/users
 
 ### Petción usuario por id
-GET http://localhost:3000/api/users/1
+GET http://localhost:3000/api/users/4
 
 ### Update usuario
 PUT  http://localhost:3000/api/users/4
 Content-Type: application/json
 
 {
-    "nombreUsuario": "Jane Doe"
+    "nombreUsuario": "John Doe"
 }
