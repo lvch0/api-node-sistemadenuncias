@@ -1,9 +1,9 @@
 ### Creación de usuario
-POST http://localhost:3000/usuario
+POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-    "nombreUsuario": "Kevin",
+    "nombreUsuario": "Jane Joe",
     "contrasenia": "12345",
     "rol": "Gestor"
 }
@@ -13,3 +13,14 @@ GET http://localhost:3000
 
 ### Petición todos los usuarios
 GET http://localhost:3000/api/users
+
+### Petción usuario por id
+GET http://localhost:3000/api/users/1
+
+### Update usuario
+PUT  http://localhost:3000/api/users/4
+Content-Type: application/json
+
+{
+    "nombreUsuario": "Jane Doe"
+}
