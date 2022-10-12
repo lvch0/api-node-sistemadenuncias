@@ -3,9 +3,9 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-    "nombre": "Jhonny B Good",
-    "contrasena": "555666",
-    "idTipousuario": 1
+    "nombre": "Jhonny B God",
+    "contrasena": "55566677",
+    "idtipousuario": 3
 }
 
 ### Petición GET de prueba

@@ -1,4 +1,4 @@
-const  db  = require("../../config/db.config")
+const db = require("../../config/db.config")
 const usersCtrl = {}
 
 usersCtrl.getUsers = async (req, res) => {
@@ -26,14 +26,14 @@ usersCtrl.getUser = async (req, res) => {
 
 usersCtrl.createUser = async (req, res) => {
     try {
-        const { nombre, contrasena, idTipousuario } = req.body
+        const { nombre, contrasena, idtipousuario } = req.body
         const result = await db.usuario.create({
             data: {
                 nombre,
                 contrasena,
-                idTipoUsuario: {
+                tipousuario: {
                     connect: {
-                        idTipoUsuario: Number(idTipousuario)
+                        idTipoUsuario: Number(idtipousuario)
                     }
                 }
             },
