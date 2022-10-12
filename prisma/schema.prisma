@@ -8,8 +8,175 @@ datasource db {
 }
 
 model usuario {
-  IdUsuario     Int    @id @default(autoincrement())
-  nombreUsuario String @db.VarChar(30)
-  contrasenia   String @db.VarChar(8)
-  rol           String @db.VarChar(30)
+  idUsuario     Int         @id @default(autoincrement())
+  idTipoUsuario Int
+  nombre        String      @db.VarChar(100)
+  contrasena    String      @db.VarChar(256)
+  tipousuario   tipousuario @relation(fields: [idTipoUsuario], references: [idTipoUsuario], onDelete: NoAction, onUpdate: NoAction, map: "tipousuario_usuario_fk")
+
+  @@index([idTipoUsuario], map: "tipousuario_usuario_fk")
+}
+
+model actuaciones {
+  idActuaciones       Int          @id @default(autoincrement())
+  numBoletaInspeccion BigInt?
+  actaInfraccion      String?      @db.VarChar(256)
+  fechaInspeccion     DateTime     @db.Date
+  inspectorActuante   String       @db.VarChar(40)
+  descripcion         String       @db.VarChar(100)
+  fechaRegistro       DateTime     @db.DateTime(0)
+  expediente          expediente[]
+}
+
+model asuntodenuncia {
+  idAsuntoDenuncia Int        @id @default(autoincrement())
+  descripcion      String     @db.VarChar(35)
+  denuncia         denuncia[]
+}
+
+model asuntoespecifico {
+  idAsuntoEspecifico Int        @id @default(autoincrement())
+  descripcion        String     @db.VarChar(100)
+  denuncia           denuncia[]
+}
+
+model barrio {
+  idBarrio              Int                     @id @default(autoincrement())
+  nombre                String                  @db.VarChar(40)
+  denunciante           denunciante[]
+  ubicacionproblematica ubicacionproblematica[]
+}
+
+model denuncia {
+  idDenuncia            Int                   @id @default(autoincrement())
+  idDenunciante         Int
+  idDireccion           Int
+  idAsuntoDenuncia      Int
+  idProceDenuncia       Int
+  idUbiProblematica     Int
+  IdDenunciado          Int
+  idEstadoDenuncia      Int
+  fechaIngreso          DateTime              @db.DateTime(0)
+  idAsuntoEspecifico    Int
+  asuntodenuncia        asuntodenuncia        @relation(fields: [idAsuntoDenuncia], references: [idAsuntoDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "asuntodenuncia_denuncia_fk")
+  asuntoespecifico      asuntoespecifico      @relation(fields: [idAsuntoEspecifico], references: [idAsuntoEspecifico], onDelete: NoAction, onUpdate: NoAction, map: "asuntoespecifico_denuncia_fk")
+  denunciado            denunciado            @relation(fields: [IdDenunciado], references: [IdDenunciado], onDelete: NoAction, onUpdate: NoAction, map: "denunciado_denuncia_fk")
+  denunciante           denunciante           @relation(fields: [idDenunciante], references: [idDenunciante], onDelete: NoAction, onUpdate: NoAction, map: "denunciante_denuncia_fk")
+  direcciones           direcciones           @relation(fields: [idDireccion], references: [idDireccion], onDelete: NoAction, onUpdate: NoAction, map: "direcciones_denuncia_fk")
+  estadodenuncia        estadodenuncia        @relation(fields: [idEstadoDenuncia], references: [idEstadoDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "estadodenuncia_denuncia_fk")
+  procedenciadenuncia   procedenciadenuncia   @relation(fields: [idProceDenuncia], references: [idProceDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "procedenciadenuncia_denuncia_fk")
+  ubicacionproblematica ubicacionproblematica @relation(fields: [idUbiProblematica], references: [idUbiProblematica], onDelete: NoAction, onUpdate: NoAction, map: "ubicacionproblematica_denuncia_fk")
+  expediente            expediente[]
+
+  @@index([idAsuntoDenuncia], map: "asuntodenuncia_denuncia_fk")
+  @@index([idAsuntoEspecifico], map: "asuntoespecifico_denuncia_fk")
+  @@index([IdDenunciado], map: "denunciado_denuncia_fk")
+  @@index([idDenunciante], map: "denunciante_denuncia_fk")
+  @@index([idDireccion], map: "direcciones_denuncia_fk")
+  @@index([idEstadoDenuncia], map: "estadodenuncia_denuncia_fk")
+  @@index([idProceDenuncia], map: "procedenciadenuncia_denuncia_fk")
+  @@index([idUbiProblematica], map: "ubicacionproblematica_denuncia_fk")
+}
+
+model denunciado {
+  IdDenunciado        Int        @id @default(autoincrement())
+  nombre              String?    @db.VarChar(20)
+  apellido            String?    @db.VarChar(20)
+  apodo               String?    @db.VarChar(15)
+  decripcionUbicacion String     @db.VarChar(50)
+  descripcion         String?    @db.VarChar(50)
+  denuncia            denuncia[]
+}
+
+model denunciante {
+  idDenunciante        Int                  @id @default(autoincrement())
+  idDomiDenun          Int
+  idBarrio             Int
+  nombre               String               @db.VarChar(20)
+  apellido             String               @db.VarChar(20)
+  dni                  Int
+  barrio               barrio               @relation(fields: [idBarrio], references: [idBarrio], onDelete: NoAction, onUpdate: NoAction, map: "barrio_denunciante_fk")
+  domiciliodenunciante domiciliodenunciante @relation(fields: [idDomiDenun], references: [idDomiDenun], onDelete: NoAction, onUpdate: NoAction, map: "domiciliodenunciante_denunciante_fk")
+  denuncia             denuncia[]
+
+  @@index([idBarrio], map: "barrio_denunciante_fk")
+  @@index([idDomiDenun], map: "domiciliodenunciante_denunciante_fk")
+}
+
+model direcciones {
+  idDireccion Int        @id @default(autoincrement())
+  nombre      String     @db.VarChar(40)
+  denuncia    denuncia[]
+}
+
+model domiciliodenunciante {
+  idDomiDenun   Int           @id @default(autoincrement())
+  calle         String        @db.VarChar(25)
+  numeracion    String?       @db.VarChar(6)
+  entreCalleUno String?       @db.VarChar(20)
+  entreCalleDos String?       @db.VarChar(20)
+  chacra        String?       @db.VarChar(10)
+  denunciante   denunciante[]
+}
+
+model estadodenuncia {
+  idEstadoDenuncia    Int        @id @default(autoincrement())
+  descripcion         String     @db.VarChar(30)
+  fechaEstadoDenuncia DateTime   @db.DateTime(0)
+  denuncia            denuncia[]
+}
+
+model expediente {
+  idExpediente     Int         @id @default(autoincrement())
+  idActuaciones    Int
+  idDenuncia       Int
+  numeroExpediente Int
+  numeroOrden      Int
+  fechaExpediente  DateTime    @default(now()) @db.Timestamp(0)
+  descripcion      String      @db.VarChar(50)
+  actuaciones      actuaciones @relation(fields: [idActuaciones], references: [idActuaciones], onDelete: NoAction, onUpdate: NoAction, map: "actuaciones_expediente_fk")
+  denuncia         denuncia    @relation(fields: [idDenuncia], references: [idDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "denuncia_expediente_fk")
+
+  @@index([idActuaciones], map: "actuaciones_expediente_fk")
+  @@index([idDenuncia], map: "denuncia_expediente_fk")
+}
+
+model localidad {
+  idLocalidad           Int                     @id @default(autoincrement())
+  nombre                String                  @db.VarChar(30)
+  ubicacionproblematica ubicacionproblematica[]
+}
+
+model procedenciadenuncia {
+  idProceDenuncia Int        @id @default(autoincrement())
+  descripcion     String     @db.VarChar(35)
+  denuncia        denuncia[]
+}
+
+model secretarias {
+  idSecretaria Int    @id @default(autoincrement())
+  nombre       String @db.VarChar(40)
+}
+
+model tipousuario {
+  idTipoUsuario Int       @id @default(autoincrement())
+  descripcion   String    @db.VarChar(10)
+  usuario       usuario[]
+}
+
+model ubicacionproblematica {
+  idUbiProblematica Int        @id @default(autoincrement())
+  calle             String     @db.VarChar(20)
+  numeracion        String     @db.VarChar(5)
+  edificio          String?    @db.VarChar(3)
+  piso              Int?
+  descripcion       String?    @db.VarChar(50)
+  idBarrio          Int
+  idLocalidad       Int
+  barrio            barrio     @relation(fields: [idBarrio], references: [idBarrio], onDelete: NoAction, onUpdate: NoAction, map: "barrio_ubicacionproblematica_fk")
+  localidad         localidad  @relation(fields: [idLocalidad], references: [idLocalidad], onDelete: NoAction, onUpdate: NoAction, map: "localidad_ubicacionproblematica_fk")
+  denuncia          denuncia[]
+
+  @@index([idBarrio], map: "barrio_ubicacionproblematica_fk")
+  @@index([idLocalidad], map: "localidad_ubicacionproblematica_fk")
 }

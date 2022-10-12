@@ -1,11 +1,9 @@
-const { PrismaClient } = require("@prisma/client")
-
-const prisma = new PrismaClient()
+const  db  = require("../../config/db.config")
 const usersCtrl = {}
 
 usersCtrl.getUsers = async (req, res) => {
     try {
-        const result = await prisma.usuario.findMany()
+        const result = await db.usuario.findMany()
         res.json(result)
     } catch (error) {
         res.send(error)
@@ -15,7 +13,7 @@ usersCtrl.getUsers = async (req, res) => {
 usersCtrl.getUser = async (req, res) => {
     try {
         const { id } = req.params
-        const result = await prisma.usuario.findUnique({
+        const result = await db.usuario.findUnique({
             where: {
                 IdUsuario: Number(id)
             },
@@ -28,12 +26,19 @@ usersCtrl.getUser = async (req, res) => {
 
 usersCtrl.createUser = async (req, res) => {
     try {
-        const { nombreUsuario, contrasenia, rol } = req.body
-        const result = await prisma.usuario.create({
+        const { nombre, contrasena, idTipousuario } = req.body
+        const result = await db.usuario.create({
             data: {
-                nombreUsuario,
-                contrasenia,
-                rol
+                nombre,
+                contrasena,
+                idTipoUsuario: {
+                    connect: {
+                        idTipoUsuario: Number(idTipousuario)
+                    }
+                }
+            },
+            include: {
+                tipousuario: true
             }
         })
         res.json(result)
@@ -45,7 +50,7 @@ usersCtrl.createUser = async (req, res) => {
 usersCtrl.updateUser = async (req, res) => {
     try {
         const { id } = req.params
-        const result = await prisma.usuario.update({
+        const result = await db.usuario.update({
             where: {
                 IdUsuario: Number(id)
             },

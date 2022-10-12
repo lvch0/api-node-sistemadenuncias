@@ -29,3 +29,8 @@
 // const utilQuery = util.promisify(dbConnect.query)
 
 // module.exports = { sequelize, dbConnect, utilQuery }.bind(dbConnect)
+const { PrismaClient } = require("@prisma/client")
+
+const db = new PrismaClient()
+
+module.exports = db

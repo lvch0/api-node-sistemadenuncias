@@ -3,9 +3,9 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-    "nombreUsuario": "Jane Joe",
-    "contrasenia": "12345",
-    "rol": "Gestor"
+    "nombre": "Jhonny B Good",
+    "contrasena": "555666",
+    "idTipousuario": 1
 }
 
 ### Petición GET de prueba
