@@ -1,9 +1,18 @@
+const { tipousuario } = require("../../config/db.config")
 const db = require("../../config/db.config")
 const usersCtrl = {}
 
 usersCtrl.getUsers = async (req, res) => {
     try {
-        const result = await db.usuario.findMany()
+        const result = await db.usuario.findMany({
+            include: {
+                tipousuario: {
+                    select: {
+                        descripcion: true
+                    }
+                }
+            }
+        })
         res.json(result)
     } catch (error) {
         res.send(error)
@@ -15,8 +24,15 @@ usersCtrl.getUser = async (req, res) => {
         const { id } = req.params
         const result = await db.usuario.findUnique({
             where: {
-                IdUsuario: Number(id)
+                idUsuario: Number(id)
             },
+            include: {
+                tipousuario: {
+                    select: {
+                        descripcion: true
+                    }
+                }
+            }
         })
         res.json(result)
     } catch (error) {
