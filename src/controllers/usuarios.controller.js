@@ -68,7 +68,7 @@ usersCtrl.updateUser = async (req, res) => {
         const { id } = req.params
         const result = await db.usuario.update({
             where: {
-                IdUsuario: Number(id)
+                idUsuario: Number(id)
             },
             data: req.body
         })

@@ -18,9 +18,9 @@ GET http://localhost:3000/api/users
 GET http://localhost:3000/api/users/1
 
 ### Update usuario
-PUT  http://localhost:3000/api/users/4
+PUT  http://localhost:3000/api/users/1
 Content-Type: application/json
 
 {
-    "nombreUsuario": "John Doe"
+    "nombre": "Jane Doe"
 }
