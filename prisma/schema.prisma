@@ -120,10 +120,9 @@ model domiciliodenunciante {
 }
 
 model estadodenuncia {
-  idEstadoDenuncia    Int        @id @default(autoincrement())
-  descripcion         String     @db.VarChar(30)
-  fechaEstadoDenuncia DateTime   @db.DateTime(0)
-  denuncia            denuncia[]
+  idEstadoDenuncia Int        @id @default(autoincrement())
+  descripcion      String     @db.VarChar(30)
+  denuncia         denuncia[]
 }
 
 model expediente {
@@ -139,12 +138,6 @@ model expediente {
 
   @@index([idActuaciones], map: "actuaciones_expediente_fk")
   @@index([idDenuncia], map: "denuncia_expediente_fk")
-}
-
-model localidad {
-  idLocalidad           Int                     @id @default(autoincrement())
-  nombre                String                  @db.VarChar(30)
-  ubicacionproblematica ubicacionproblematica[]
 }
 
 model procedenciadenuncia {
@@ -174,7 +167,6 @@ model ubicacionproblematica {
   idBarrio          Int
   idLocalidad       Int
   barrio            barrio     @relation(fields: [idBarrio], references: [idBarrio], onDelete: NoAction, onUpdate: NoAction, map: "barrio_ubicacionproblematica_fk")
-  localidad         localidad  @relation(fields: [idLocalidad], references: [idLocalidad], onDelete: NoAction, onUpdate: NoAction, map: "localidad_ubicacionproblematica_fk")
   denuncia          denuncia[]
 
   @@index([idBarrio], map: "barrio_ubicacionproblematica_fk")

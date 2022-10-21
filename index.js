@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/users", require("./src/routes/usuarios.routes"))
+app.use("/api/form", require("./src/routes/form.routes"))
 
 app.listen(3000, () => {
     console.log("Escuchando en el puerto")
