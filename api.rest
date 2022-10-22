@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ### Crear formulario
-POST http://localhost:3000/api/form
+POST http://localhost:3000/api/form/
 Content-Type: application/json
 
 {
@@ -39,10 +39,10 @@ Content-Type: application/json
     "calleRefeDosDomiDenunciante": "Tchaikovsky",
     "idBarrio": 1,
     "idDirec": 1,
-    "idAsunDenun": 2,
+    "idAsunDenun": 40,
     "idProceDenun": 2,
     "calleUbiProble": "Las Hortensias",
-    "numeUbiProble": 4321,
+    "numeUbiProble": "4321",
     "descripUbiProble": "A unos cuantos metros del supermercado",
     "idBarrioUbiProble": 1,
     "nombreDenunciado": "Leo",

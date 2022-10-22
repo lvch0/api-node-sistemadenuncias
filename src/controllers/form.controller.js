@@ -1,4 +1,3 @@
-const { asuntoespecifico } = require("../../config/db.config")
 const db = require("../../config/db.config")
 const formCtrl = {}
 
@@ -39,11 +38,8 @@ formCtrl.createForm = async (req, res) => {
             apodoDenunciado,
             descripUbiDenunciado,
             descripDenunciado,
-            descripEstadoDenun,  //!tabla estadoDenuncia//!
-            idAsunEspeci //!tabla asuntoEspecifico
+            descripEstadoDenun  //!tabla estadoDenuncia//!
         } = req.body
-
-        let resultAsun;
 
         const result = await db.denuncia.create({
             data: {
@@ -58,6 +54,7 @@ formCtrl.createForm = async (req, res) => {
                                 numeracion: numeDomiDenunciante,
                                 entreCalleUno: calleRefeUnoDomiDenunciante,
                                 entreCalleDos: calleRefeDosDomiDenunciante,
+                                chacra: chacraDomiDenunciante
                             }
                         },
                         barrio: {
@@ -86,6 +83,8 @@ formCtrl.createForm = async (req, res) => {
                     create: {
                         calle: calleUbiProble,
                         numeracion: numeUbiProble,
+                        edificio: edificioUbiProble,
+                        piso: pisoUbiProble,
                         descripcion: descripUbiProble,
                         barrio: {
                             connect: {
@@ -109,24 +108,18 @@ formCtrl.createForm = async (req, res) => {
                     }
                 }
             },
-            if (idAsunDenun = 1) {
-                const resultAsun = db.denuncia.update({
-                    data: {
-                        idAsuntoEspecifico: Number(idAsunEspeci)
-                    },
-                    include: {
-                        asuntoespecifico: {
-                            select: {
-                                descripcion: true
-                            }
-                        }
-                    }
-                })
+            include: {
+                denunciante: true,
+                direcciones: true,
+                asuntodenuncia: true,
+                procedenciadenuncia: true,
+                ubicacionproblematica: true,
+                denunciado: true,
+                estadodenuncia: true
             }
         })
 
         res.send(result)
-        res.send(resultAsun)
     } catch (error) {
         res.send(error)
     }

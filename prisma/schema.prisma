@@ -18,26 +18,19 @@ model usuario {
 }
 
 model actuaciones {
-  idActuaciones       Int          @id @default(autoincrement())
+  idActuaciones       Int      @id @default(autoincrement())
   numBoletaInspeccion BigInt?
-  actaInfraccion      String?      @db.VarChar(256)
-  fechaInspeccion     DateTime     @db.Date
-  inspectorActuante   String       @db.VarChar(40)
-  descripcion         String       @db.VarChar(100)
-  fechaRegistro       DateTime     @db.DateTime(0)
-  expediente          expediente[]
+  actaInfraccion      String?  @db.VarChar(256)
+  fechaInspeccion     DateTime @db.Date
+  inspectorActuante   String   @db.VarChar(40)
+  descripcion         String   @db.VarChar(100)
+  fechaRegistro       DateTime @db.DateTime(0)
 }
 
 model asuntodenuncia {
   idAsuntoDenuncia Int        @id @default(autoincrement())
   descripcion      String     @db.VarChar(35)
   denuncia         denuncia[]
-}
-
-model asuntoespecifico {
-  idAsuntoEspecifico Int        @id @default(autoincrement())
-  descripcion        String     @db.VarChar(100)
-  denuncia           denuncia[]
 }
 
 model barrio {
@@ -56,20 +49,15 @@ model denuncia {
   idUbiProblematica     Int
   IdDenunciado          Int
   idEstadoDenuncia      Int
-  fechaIngreso          DateTime              @db.DateTime(0)
-  idAsuntoEspecifico    Int
   asuntodenuncia        asuntodenuncia        @relation(fields: [idAsuntoDenuncia], references: [idAsuntoDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "asuntodenuncia_denuncia_fk")
-  asuntoespecifico      asuntoespecifico      @relation(fields: [idAsuntoEspecifico], references: [idAsuntoEspecifico], onDelete: NoAction, onUpdate: NoAction, map: "asuntoespecifico_denuncia_fk")
   denunciado            denunciado            @relation(fields: [IdDenunciado], references: [IdDenunciado], onDelete: NoAction, onUpdate: NoAction, map: "denunciado_denuncia_fk")
   denunciante           denunciante           @relation(fields: [idDenunciante], references: [idDenunciante], onDelete: NoAction, onUpdate: NoAction, map: "denunciante_denuncia_fk")
   direcciones           direcciones           @relation(fields: [idDireccion], references: [idDireccion], onDelete: NoAction, onUpdate: NoAction, map: "direcciones_denuncia_fk")
   estadodenuncia        estadodenuncia        @relation(fields: [idEstadoDenuncia], references: [idEstadoDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "estadodenuncia_denuncia_fk")
   procedenciadenuncia   procedenciadenuncia   @relation(fields: [idProceDenuncia], references: [idProceDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "procedenciadenuncia_denuncia_fk")
   ubicacionproblematica ubicacionproblematica @relation(fields: [idUbiProblematica], references: [idUbiProblematica], onDelete: NoAction, onUpdate: NoAction, map: "ubicacionproblematica_denuncia_fk")
-  expediente            expediente[]
 
   @@index([idAsuntoDenuncia], map: "asuntodenuncia_denuncia_fk")
-  @@index([idAsuntoEspecifico], map: "asuntoespecifico_denuncia_fk")
   @@index([IdDenunciado], map: "denunciado_denuncia_fk")
   @@index([idDenunciante], map: "denunciante_denuncia_fk")
   @@index([idDireccion], map: "direcciones_denuncia_fk")
@@ -125,21 +113,6 @@ model estadodenuncia {
   denuncia         denuncia[]
 }
 
-model expediente {
-  idExpediente     Int         @id @default(autoincrement())
-  idActuaciones    Int
-  idDenuncia       Int
-  numeroExpediente Int
-  numeroOrden      Int
-  fechaExpediente  DateTime    @default(now()) @db.Timestamp(0)
-  descripcion      String      @db.VarChar(50)
-  actuaciones      actuaciones @relation(fields: [idActuaciones], references: [idActuaciones], onDelete: NoAction, onUpdate: NoAction, map: "actuaciones_expediente_fk")
-  denuncia         denuncia    @relation(fields: [idDenuncia], references: [idDenuncia], onDelete: NoAction, onUpdate: NoAction, map: "denuncia_expediente_fk")
-
-  @@index([idActuaciones], map: "actuaciones_expediente_fk")
-  @@index([idDenuncia], map: "denuncia_expediente_fk")
-}
-
 model procedenciadenuncia {
   idProceDenuncia Int        @id @default(autoincrement())
   descripcion     String     @db.VarChar(35)
@@ -165,10 +138,8 @@ model ubicacionproblematica {
   piso              Int?
   descripcion       String?    @db.VarChar(50)
   idBarrio          Int
-  idLocalidad       Int
   barrio            barrio     @relation(fields: [idBarrio], references: [idBarrio], onDelete: NoAction, onUpdate: NoAction, map: "barrio_ubicacionproblematica_fk")
   denuncia          denuncia[]
 
   @@index([idBarrio], map: "barrio_ubicacionproblematica_fk")
-  @@index([idLocalidad], map: "localidad_ubicacionproblematica_fk")
 }
