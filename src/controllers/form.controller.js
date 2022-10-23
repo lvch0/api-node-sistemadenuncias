@@ -3,7 +3,18 @@ const formCtrl = {}
 
 formCtrl.getForms = async (req, res) => {
     try {
-
+        const result = await db.denuncia.findMany({
+            include: {
+                denunciante: true,
+                direcciones: true,
+                asuntodenuncia: true,
+                procedenciadenuncia: true,
+                ubicacionproblematica: true,
+                denunciado: true,
+                estadodenuncia: true
+            }
+        })
+        res.send(result)
     } catch (error) {
 
     }
