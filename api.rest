@@ -30,7 +30,7 @@ POST http://localhost:3000/api/form/
 Content-Type: application/json
 
 {
-    "nombreDenunciante": "Laura",
+    "nombreDenunciante": "Carl",
     "apellDenunciante": "Palmer",
     "dniDenunciante": 18555666,
     "calleDomiDenunciante": "Stravinsky",
@@ -53,3 +53,5 @@ Content-Type: application/json
     "descripEstadoDenun": "En tratativa"
 }
 
+### Buscar denuncia por id
+GET http://localhost:3000/api/form/2

@@ -11,9 +11,24 @@ formCtrl.getForms = async (req, res) => {
 
 formCtrl.getForm = async (req, res) => {
     try {
-
+        const { id } = req.params
+        const result = await db.denuncia.findUnique({
+            where: {
+                idDenuncia: Number(id)
+            },
+            include: {
+                denunciante: true,
+                direcciones: true,
+                asuntodenuncia: true,
+                procedenciadenuncia: true,
+                ubicacionproblematica: true,
+                denunciado: true,
+                estadodenuncia: true
+            }
+        })
+        res.send(result)
     } catch (error) {
-
+        res.status(404).send(error)
     }
 }
 
