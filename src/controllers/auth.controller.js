@@ -1,45 +1,43 @@
-// // const mysql = require("mysql")
-// const util = require("util")
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+const { v4: uuidv4 } = require("uuid")
 
-// const addUser = 
-//     async (req, res) => {
-//         try {
+const db = require("../../config/db.config")
+const generateTokens = require("../../src/utils/jwt")
+const { addRefreshTokenToWhitelist } = require("../services/auth.services")
+const { findUserByName, createUserByNameAndPassword } = require("../services/users.services")
 
-//             //verifica que se haya ingresado un usuario
-//             if (!req.body.nombreUsuario) {
-//                 throw new Error("¡Se debe ingresar un nombre para la creación de usuario!")
-//             }
+const authCtrl = {}
 
-//             //valida que no se ingrese un nombre en blanco
-//             if (/^\s+$/.test(req.body.nombreUsuario)) {
-//                 throw new Error("¡No es posible ingresar espacios en blanco!")
-//             }
+authCtrl.userRegister = async (req, res) => {
+    try {
+        const { nombre, contrasena } = req.body
+        if (!nombre || !contrasena) {
+            res.status(400)
+            throw new Error("Necesita probeer el nombre y contraseña")
+        }
 
-//             const nombreUpperCased = req.body.nombreUsuario.toUpperCase()
+        const existingUser = await findUserByName(nombre);
+        if (existingUser) {
+            res.status(400)
+            throw new Error("El nombre de usuario ya existe.")
+        }
 
-//             //verifica si el nombre existe
-//             let query = 'SELECT nombreDelCampo FROM nombreDeLaTabla WHERE nombreDelCampo = ?'
+        const usuario = await createUserByNameAndPassword({ nombre, contrasena })
+        const jti = uuidv4()
+        const { accessToken, refreshToken } = generateTokens(usuario.jti)
+        await addRefreshTokenToWhitelist({jti, refreshToken, idUsuario: usuario.idUsuario})
 
-//             let response = await utilQuery(query, nombreUpperCased)
+        res.json({
+            accessToken,
+            refreshToken
+        })
+    } catch (error) {
+        res.send(error)
+    }
+}
 
-//             if (response.length > 0) {
-//                 throw new Error("¡El usuario ya existe!")
-//             }
+module.exports = userRegister
 
-//             query = "INSERT INTO tablaBD VALUES (?)"
-
-//             response = await utilQuery(query, nombreUpperCased)
-
-//             res.status(200).send({ 
-//                 "respuesta": response.insertId,
-//                 "nombre:": nombreUpperCased
-//             })
-//         }
-//         catch (e) {
-//             console.error(e.message)
-//             res.status(413).send({ "mensaje": e.message})
-//         }
-        
-//     }
 
 

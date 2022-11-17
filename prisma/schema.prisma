@@ -8,11 +8,12 @@ datasource db {
 }
 
 model usuario {
-  idUsuario     Int         @id @default(autoincrement())
+  idUsuario     Int            @id @default(autoincrement())
   idTipoUsuario Int
-  nombre        String      @db.VarChar(100)
-  contrasena    String      @db.VarChar(256)
-  tipousuario   tipousuario @relation(fields: [idTipoUsuario], references: [idTipoUsuario], onDelete: NoAction, onUpdate: NoAction, map: "tipousuario_usuario_fk")
+  nombre        String         @unique(map: "nombre") @db.VarChar(100)
+  contrasena    String         @db.VarChar(256)
+  tipousuario   tipousuario    @relation(fields: [idTipoUsuario], references: [idTipoUsuario], onDelete: NoAction, onUpdate: NoAction, map: "tipousuario_usuario_fk")
+  refreshtoken  refreshtoken[]
 
   @@index([idTipoUsuario], map: "tipousuario_usuario_fk")
 }
@@ -142,4 +143,16 @@ model ubicacionproblematica {
   denuncia          denuncia[]
 
   @@index([idBarrio], map: "barrio_ubicacionproblematica_fk")
+}
+
+model refreshtoken {
+  idRefreshToken String   @id @unique(map: "RefreshToken_idRefreshToken_key")
+  hashedToken    String
+  idUsuario      Int
+  revoked        Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime
+  usuario        usuario  @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade, map: "RefreshToken_idUsuario_fkey")
+
+  @@index([idUsuario], map: "RefreshToken_idUsuario_fkey")
 }

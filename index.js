@@ -24,8 +24,11 @@
 const express = require("express")
 
 const app = express()
+const cors = require("cors")
+const corsOptions = require("./config/corsOptions")
 
 app.use(express.json())
+app.use(cors(corsOptions))
 
 app.get("/", (req, res) => {
     res.send("Hola mundo")
@@ -34,7 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", require("./src/routes/usuarios.routes"))
 app.use("/api/form", require("./src/routes/form.routes"))
 
-app.listen(3000, () => {
+app.listen(3001, () => {
     console.log("Escuchando en el puerto")
 })
 

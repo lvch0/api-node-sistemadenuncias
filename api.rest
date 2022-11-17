@@ -1,24 +1,24 @@
 ### Creación de usuario
-POST http://localhost:3000/api/users
+POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "nombre": "Jhonny B God",
+    "nombre": "Naomi",
     "contrasena": "55566677",
-    "idtipousuario": 3
+    "idtipousuario": 2
 }
 
 ### Petición GET de prueba
-GET http://localhost:3000
+GET http://localhost:3001
 
 ### Petición todos los usuarios
-GET http://localhost:3000/api/users
+GET http://localhost:3001/api/users
 
 ### Petción usuario por id
-GET http://localhost:3000/api/users/1
+GET http://localhost:3001/api/users/1
 
 ### Update usuario
-PUT  http://localhost:3000/api/users/1
+PUT  http://localhost:3001/api/users/1
 Content-Type: application/json
 
 {
@@ -26,12 +26,12 @@ Content-Type: application/json
 }
 
 ### Crear formulario
-POST http://localhost:3000/api/form/
+POST http://localhost:3001/api/form/
 Content-Type: application/json
 
 {
-    "nombreDenunciante": "Carl",
-    "apellDenunciante": "Palmer",
+    "nombreDenunciante": "Jenny",
+    "apellDenunciante": "Doe",
     "dniDenunciante": 18555666,
     "calleDomiDenunciante": "Stravinsky",
     "numeDomiDenunciante": "666",
@@ -54,7 +54,7 @@ Content-Type: application/json
 }
 
 ### Buscar denuncia por id
-GET http://localhost:3000/api/form/2
+GET http://localhost:3001/api/form/2
 
 ### Traer todas las denuncias cargadas
-GET http://localhost:3000/api/form/
+GET http://localhost:3001/api/form/
